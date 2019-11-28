@@ -94,7 +94,6 @@ class _WheelChooserState extends State<WheelChooser> {
     for (int i = 0; i < widget.childCount; i++) {
       result.add(
           widget.builder(i, i == currentPosition)
-
       );
     }
     return result;
