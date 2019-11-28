@@ -14,7 +14,6 @@ class WheelChooser extends StatefulWidget {
   final double perspective;
   final double listHeight;
   final double listWidth;
-  final Widget Function(int index) children;
   static const double _defaultItemSize = 48.0;
 
   WheelChooser({
@@ -29,13 +28,11 @@ class WheelChooser extends StatefulWidget {
     this.perspective = 0.01,
     this.listWidth,
     this.listHeight,
-  })  : assert(perspective <= 0.01),
-        children = null;
+  })  : assert(perspective <= 0.01);
 
   WheelChooser.custom({
     @required this.onValueChanged,
-    @required this.children,
-    this.datas,
+    @required  this.datas,
     this.startPosition = 0,
     this.squeeze = 1.0,
     this.itemSize = _defaultItemSize,
