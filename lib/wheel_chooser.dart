@@ -14,7 +14,7 @@ class WheelChooser extends StatefulWidget {
   final double perspective;
   final double listHeight;
   final double listWidth;
-  final List<Widget> children;
+  final List<Widget> Function() children;
   final bool horizontal;
   static const double _defaultItemSize = 48.0;
 
@@ -47,7 +47,7 @@ class WheelChooser extends StatefulWidget {
     this.listHeight,
     this.horizontal = false,
   })  : assert(perspective <= 0.01),
-        assert(datas == null || datas.length == children.length),
+        assert(datas == null ),//|| datas.length == children.length),
         selectTextStyle = null,
         unSelectTextStyle = null;
 
@@ -111,8 +111,12 @@ class _WheelChooserState extends State<WheelChooser> {
       currentPosition = position;
     });
     if (widget.datas == null) {
+      _childs.clear();
+      child();
       widget.onValueChanged(currentPosition);
     } else {
+      _childs.clear();
+      child();
       widget.onValueChanged(widget.datas[currentPosition]);
     }
   }
@@ -155,21 +159,31 @@ class _WheelChooserState extends State<WheelChooser> {
     return result;
   }
 
+  List<Widget>_childs=List();
+  List<Widget> child(){
+    if(_childs.isEmpty){
+      _childs.addAll(widget.children());
+    }
+    return _childs;
+  }
+
   List<Widget> _convertListItems() {
     if (widget.children == null) {
       return null;
     }
     if (widget.horizontal) {
       List<Widget> result = [];
-      for (int i = 0; i < widget.children.length; i++) {
+
+
+      for (int i = 0; i < child().length; i++) {
         result.add(RotatedBox(
           quarterTurns: 1,
-          child: widget.children[i],
+          child: child()[i],
         ));
       }
       return result;
     } else {
-      return widget.children;
+      return child();
     }
   }
 }

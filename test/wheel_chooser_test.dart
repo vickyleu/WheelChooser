@@ -38,11 +38,13 @@ Future<WheelChooser> _wheelChooserTester({WidgetTester tester}) async {
   int index;
   chooser = WheelChooser.custom(
     onValueChanged: (a) => index = a,
-    children: <Widget>[
-      Text("data1"),
-      Text("data2"),
-      Text("data3"),
-    ],
+    children:(){
+      return  <Widget>[
+        Text("data1"),
+        Text("data2"),
+        Text("data3"),
+      ];
+    },
   );
 
   await tester.pumpWidget(StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
