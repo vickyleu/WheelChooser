@@ -5,8 +5,9 @@ import 'package:flutter/widgets.dart';
 class WheelChooser extends StatefulWidget {
   final TextStyle selectTextStyle;
   final TextStyle unSelectTextStyle;
-  final Function(dynamic) onValueChanged;
-  final List<dynamic> datas;
+  final Function(int index) onValueChanged;
+  final int childCount;
+  final Widget Function(int index,TextStyle style)builder;
   final int startPosition;
   final double itemSize;
   final double squeeze;
@@ -18,7 +19,8 @@ class WheelChooser extends StatefulWidget {
 
   WheelChooser({
     @required this.onValueChanged,
-    @required this.datas,
+    @required this.builder,
+    @required this.childCount,
     this.selectTextStyle,
     this.unSelectTextStyle,
     this.startPosition = 0,
@@ -32,7 +34,8 @@ class WheelChooser extends StatefulWidget {
 
   WheelChooser.custom({
     @required this.onValueChanged,
-    @required  this.datas,
+    @required  this.builder,
+    @required  this.childCount,
     this.startPosition = 0,
     this.squeeze = 1.0,
     this.itemSize = _defaultItemSize,
@@ -43,7 +46,7 @@ class WheelChooser extends StatefulWidget {
     this.selectTextStyle,
     this.unSelectTextStyle
   })  : assert(perspective <= 0.01),
-        assert(datas != null &&datas.length>0);
+        assert(childCount>0);
 
   @override
   _WheelChooserState createState() {
@@ -65,11 +68,7 @@ class _WheelChooserState extends State<WheelChooser> {
     setState(() {
       currentPosition = position;
     });
-    if (widget.datas == null) {
       widget.onValueChanged(currentPosition);
-    } else {
-      widget.onValueChanged(widget.datas[currentPosition]);
-    }
   }
 
   @override
@@ -92,14 +91,10 @@ class _WheelChooserState extends State<WheelChooser> {
 
   List<Widget> _buildListItems() {
     List<Widget> result = [];
-    for (int i = 0; i < widget.datas.length; i++) {
+    for (int i = 0; i < widget.childCount; i++) {
       result.add(
-        Text(
-          widget.datas[i].toString(),
-          textAlign: TextAlign.center,
-          textScaleFactor: 1.5,
-          style: i == currentPosition ? widget.selectTextStyle ?? null : widget.unSelectTextStyle ?? null,
-        ),
+          widget.builder(i, i == currentPosition ? widget.selectTextStyle ?? null : widget.unSelectTextStyle ?? null)
+
       );
     }
     return result;
