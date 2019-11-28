@@ -111,13 +111,13 @@ class _WheelChooserState extends State<WheelChooser> {
       currentPosition = position;
     });
     if (widget.datas == null) {
-      _childs.clear();
-      child();
       widget.onValueChanged(currentPosition);
-    } else {
       _childs.clear();
       child();
+    } else {
       widget.onValueChanged(widget.datas[currentPosition]);
+      _childs.clear();
+      child();
     }
   }
 
