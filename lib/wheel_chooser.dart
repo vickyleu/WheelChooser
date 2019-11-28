@@ -7,7 +7,7 @@ class WheelChooser extends StatefulWidget {
   final TextStyle unSelectTextStyle;
   final Function(int index) onValueChanged;
   final int childCount;
-  final Widget Function(int index,TextStyle style)builder;
+  final Widget Function(int index,bool checked)builder;
   final int startPosition;
   final double itemSize;
   final double squeeze;
@@ -93,7 +93,7 @@ class _WheelChooserState extends State<WheelChooser> {
     List<Widget> result = [];
     for (int i = 0; i < widget.childCount; i++) {
       result.add(
-          widget.builder(i, i == currentPosition ? widget.selectTextStyle ?? null : widget.unSelectTextStyle ?? null)
+          widget.builder(i, i == currentPosition)
 
       );
     }
